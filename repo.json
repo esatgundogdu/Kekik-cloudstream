@@ -1,0 +1,8 @@
+{
+    "name": "Turkish Providers Repository | @esatgundogdu",
+    "description": "Türkçe içerikli eklenti havuzu",
+    "manifestVersion": 1,
+    "pluginLists": [
+      "https://raw.githubusercontent.com/esatgundogdu/Kekik-cloudstream/builds/plugins.json"
+    ]
+}
