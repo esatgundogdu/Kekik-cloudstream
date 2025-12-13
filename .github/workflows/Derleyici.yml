@@ -51,9 +51,12 @@
            cp **/build/*.cs3 $GITHUB_WORKSPACE/builds
            cp build/plugins.json $GITHUB_WORKSPACE/builds
 
-       - name: '@KekikAkademi ifadesini değiştir'
+       - name: 'Repo referanslarını değiştir'
          run: |
-           sed -i 's/@KekikAkademi/@feroxxcs3/g' $GITHUB_WORKSPACE/builds/repo.json
+           sed -i 's/@KekikAkademi/@esatgundogdu/g' $GITHUB_WORKSPACE/builds/repo.json
+          sed -i 's/@feroxxcs3/@esatgundogdu/g' $GITHUB_WORKSPACE/builds/repo.json
+          sed -i 's/@feroxxcs/@esatgundogdu/g' $GITHUB_WORKSPACE/builds/repo.json
+          sed -i 's|feroxx/Kekik-cloudstream|esatgundogdu/Kekik-cloudstream|g' $GITHUB_WORKSPACE/builds/repo.json
  
        - name: Derlemeleri Yükle
          run: |
