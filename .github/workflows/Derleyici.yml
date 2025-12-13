@@ -1,10 +1,10 @@
 # Bu araç @keyiflerolsun tarafından | @KekikAkademi için yazılmıştır.
- name: CloudStream Derleyici
- concurrency:
+name: CloudStream Derleyici
+concurrency:
    group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
    cancel-in-progress: true
- 
- on:
+
+on:
    workflow_dispatch:
    push:
      branches:
@@ -51,12 +51,12 @@
            cp **/build/*.cs3 $GITHUB_WORKSPACE/builds
            cp build/plugins.json $GITHUB_WORKSPACE/builds
 
-      - name: 'Repo referanslarını değiştir'
-        run: |
-          sed -i 's/@KekikAkademi/@esatgundogdu/g' $GITHUB_WORKSPACE/builds/repo.json
-          sed -i 's/@feroxxcs3/@esatgundogdu/g' $GITHUB_WORKSPACE/builds/repo.json
-          sed -i 's/@feroxxcs/@esatgundogdu/g' $GITHUB_WORKSPACE/builds/repo.json
-          sed -i 's|feroxx/Kekik-cloudstream|esatgundogdu/Kekik-cloudstream|g' $GITHUB_WORKSPACE/builds/repo.json
+       - name: 'Repo referanslarını değiştir'
+         run: |
+           sed -i 's/@KekikAkademi/@esatgundogdu/g' $GITHUB_WORKSPACE/builds/repo.json
+           sed -i 's/@feroxxcs3/@esatgundogdu/g' $GITHUB_WORKSPACE/builds/repo.json
+           sed -i 's/@feroxxcs/@esatgundogdu/g' $GITHUB_WORKSPACE/builds/repo.json
+           sed -i 's|feroxx/Kekik-cloudstream|esatgundogdu/Kekik-cloudstream|g' $GITHUB_WORKSPACE/builds/repo.json
  
        - name: Derlemeleri Yükle
          run: |
