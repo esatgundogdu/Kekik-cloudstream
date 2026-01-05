@@ -1,0 +1,12 @@
+# CloudStream Otomatik Görevler
+# Format: dakika saat gün ay haftanın_günü komut
+
+# Domain kontrolü - Her 9 saatte bir (orijinal workflow ile aynı)
+# 00:11, 09:11, 18:11 saatlerinde çalışır
+11 */9 * * * root /app/scripts/kontrol.sh >> /var/log/cron.log 2>&1
+
+# Derleyici - Günde bir kez (isteğe bağlı olarak aktif edilebilir)
+# Varsayılan olarak kapalı, kontrol.sh domain değişikliği tespit ederse zaten tetikliyor
+# 0 3 * * * root /app/scripts/derleyici.sh >> /var/log/cron.log 2>&1
+
+# Boş satır gerekli (cron için)

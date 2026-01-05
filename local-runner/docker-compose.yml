@@ -1,0 +1,24 @@
+services:
+  cloudstream-builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cloudstream-builder
+    restart: unless-stopped
+    volumes:
+      # Repo dizinini mount et
+      - ..:/repo
+      # SSH key için (host'tan)
+      - ~/.ssh:/root/.ssh:ro
+    environment:
+      - TZ=Europe/Istanbul
+      - GIT_USER_NAME=github-actions[bot]
+      - GIT_USER_EMAIL=41898282+github-actions[bot]@users.noreply.github.com
+      # GitHub token (opsiyonel - private repo için)
+      # - GITHUB_TOKEN=${GITHUB_TOKEN}
+    # Logları takip etmek için
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
