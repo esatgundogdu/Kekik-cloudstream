@@ -7,8 +7,9 @@ from Crypto.Util.Padding import unpad
 import os, re, base64, json
 
 class MainUrlUpdater:
-    def __init__(self, base_dir="."):
+    def __init__(self, base_dir=".", timeout=30):
         self.base_dir = base_dir
+        self.timeout  = timeout  # Her istek için timeout (saniye)
         self.oturum   = CloudScraper()
 
     @property
@@ -76,12 +77,13 @@ class MainUrlUpdater:
                 "appBuild"      : "81",
                 "appInstanceId" : "evON8ZdeSr-0wUYxf0qs68",
                 "appId"         : "1:791583031279:android:1",
-            }
+            },
+            timeout = self.timeout
         )
         return istek.json().get("entries", {}).get("api_url", "").replace("/api/", "")
 
     def _golgetv_ver(self):
-        istek = self.oturum.get("https://raw.githubusercontent.com/sevdaliyim/sevdaliyim/refs/heads/main/ssl2.key").text
+        istek = self.oturum.get("https://raw.githubusercontent.com/sevdaliyim/sevdaliyim/refs/heads/main/ssl2.key", timeout=self.timeout).text
         cipher = AES.new(b"trskmrskslmzbzcnfstkcshpfstkcshp", AES.MODE_CBC, b"trskmrskslmzbzcn")
         encrypted_data = base64.b64decode(istek)
         decrypted_data = unpad(cipher.decrypt(encrypted_data), AES.block_size).decode("utf-8")
@@ -118,7 +120,7 @@ class MainUrlUpdater:
                     continue
             else:
                 try:
-                    istek = self.oturum.get(mainurl, allow_redirects=True)
+                    istek = self.oturum.get(mainurl, allow_redirects=True, timeout=self.timeout)
                     konsol.log(f"[+] Kontrol Edildi   : {mainurl}")
                 except Exception as hata:
                     konsol.log(f"[!] Kontrol Edilemedi : {mainurl}")
