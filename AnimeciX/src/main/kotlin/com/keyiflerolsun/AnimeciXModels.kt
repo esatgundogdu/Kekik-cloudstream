@@ -79,4 +79,7 @@ data class TitleVideos(
     @JsonProperty("videos") val videos: List<Video>
 )
 
-data class Season(@JsonProperty("number") val number: Int)
+data class Season(
+    @JsonProperty("number") val number: Int,
+    @JsonProperty("episode_count") val episodeCount: Int = 0
+)

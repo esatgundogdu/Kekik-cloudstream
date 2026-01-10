@@ -97,13 +97,25 @@ class AnimeciX : MainAPI() {
 
         if (response.title.titleType == "anime") {
             for (sezon in response.title.seasons) {
-                val sezonResponse = app.get("${mainUrl}/secure/related-videos?episode=1&season=${sezon.number}&videoId=0&titleId=${titleId}").parsedSafe<TitleVideos>() ?: return null
-                for (video in sezonResponse.videos) {
-                    episodes.add(newEpisode(video.url) {
-                        this.name = "${video.seasonNum}. Sezon ${video.episodeNum}. Bölüm"
-                        this.season = video.seasonNum
-                        this.episode = video.episodeNum
-                    })
+                // Eğer sezon bölüm sayısı 100'den fazlaysa, API çağırmadan bölümleri manuel oluştur
+                // Bu, One Piece gibi 1000+ bölümlük animelerde 7MB+ yanıt sorununu önler
+                if (sezon.episodeCount > 100) {
+                    for (episodeNum in 1..sezon.episodeCount) {
+                        episodes.add(newEpisode("secure/best-video?titleId=${titleId}&episode=${episodeNum}&season=${sezon.number}") {
+                            this.name = "${sezon.number}. Sezon ${episodeNum}. Bölüm"
+                            this.season = sezon.number
+                            this.episode = episodeNum
+                        })
+                    }
+                } else {
+                    val sezonResponse = app.get("${mainUrl}/secure/related-videos?episode=1&season=${sezon.number}&videoId=0&titleId=${titleId}").parsedSafe<TitleVideos>() ?: continue
+                    for (video in sezonResponse.videos) {
+                        episodes.add(newEpisode(video.url) {
+                            this.name = "${video.seasonNum}. Sezon ${video.episodeNum}. Bölüm"
+                            this.season = video.seasonNum
+                            this.episode = video.episodeNum
+                        })
+                    }
                 }
             }
         } else {
